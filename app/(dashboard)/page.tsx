@@ -2,7 +2,6 @@
 
 import {
     Box,
-    Flex,
     Heading,
     SimpleGrid,
     Stack,
@@ -11,6 +10,9 @@ import {
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import IncomeCard from "./transactions/components/IncomeCard";
+import ExpenseCard from "./transactions/components/ExpenseCard";
+import TransferCard from "./transactions/components/TransferCard";
 
 export default function Home() {
     const { isAuthenticated } = useAuth();
@@ -28,11 +30,11 @@ export default function Home() {
                 <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} w="full">
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Text fontSize="md" color="fg.muted">Income</Text>
-                        <Heading size="lg" mt={2}>$4,250</Heading>
+                        <Heading size="lg" mt={2} color="green.600">$4,250</Heading>
                     </Box>
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Text fontSize="md" color="fg.muted">Expenses</Text>
-                        <Heading size="lg" mt={2}>$2,980</Heading>
+                        <Heading size="lg" mt={2} color="red.600">$2,980</Heading>
                     </Box>
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Text fontSize="md" color="fg.muted">Balance</Text>
@@ -44,57 +46,31 @@ export default function Home() {
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Heading size="lg" mb={4}>Incomes</Heading>
                         <Stack gap={2} w="full">
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Salary</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Checking</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-01</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$3,500</Text>
-                            </Flex>
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Freelance</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Savings</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-02</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$500</Text>
-                            </Flex>
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Investment</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Brokerage</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-01-28</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$250</Text>
-                            </Flex>
+                            <IncomeCard description="Salary" account="Checking" date="2025-02-01" amount={3500} />
+                            <IncomeCard description="Freelance" account="Savings" date="2025-02-02" amount={500} />
+                            <IncomeCard description="Investment" account="Brokerage" date="2025-01-28" amount={250} />
                         </Stack>
                     </Box>
 
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Heading size="lg" mb={4}>Expenses</Heading>
                         <Stack gap={2} w="full">
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Rent</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Checking</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-01</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$1,500</Text>
-                            </Flex>
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Groceries</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Checking</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-02</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$420</Text>
-                            </Flex>
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Utilities</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Savings</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-01-31</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$180</Text>
-                            </Flex>
-                            <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
-                                <Text flex="1" textAlign="left">Transport</Text>
-                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Credit</Text>
-                                <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-01-30</Text>
-                                <Text fontWeight="semibold" w="20" textAlign="right">$120</Text>
-                            </Flex>
+                            <ExpenseCard description="Rent" account="Checking" date="2025-02-01" amount={1500} />
+                            <ExpenseCard description="Groceries" account="Checking" date="2025-02-02" amount={420} />
+                            <ExpenseCard description="Utilities" account="Savings" date="2025-01-31" amount={180} />
+                            <ExpenseCard description="Transport" account="Credit" date="2025-01-30" amount={120} />
                         </Stack>
                     </Box>
                 </SimpleGrid>
+
+                <Box borderWidth="1px" rounded="lg" p={6} w="full">
+                    <Heading size="lg" mb={4}>Transfers</Heading>
+                    <Stack gap={2} w="full">
+                        <TransferCard description="Transfer to Savings" fromAccount="Checking" toAccount="Savings" date="2025-02-03" amount={500} />
+                        <TransferCard description="Transfer to Brokerage" fromAccount="Savings" toAccount="Brokerage" date="2025-01-29" amount={1000} />
+                        <TransferCard description="Transfer from Credit" fromAccount="Credit" toAccount="Checking" date="2025-01-25" amount={300} />
+                    </Stack>
+                </Box>
             </Stack>
         </Box>
     );

@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 					</Button>
 				</Link>
 				<Spacer />
-				<Button colorPalette="red" px={4} variant="outline" onClick={logout}>
+				<Button px={4} variant="outline" onClick={logout}>
 					Logout
 				</Button>
 			</Flex>
