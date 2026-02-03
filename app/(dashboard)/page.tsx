@@ -46,16 +46,19 @@ export default function Home() {
                         <Stack gap={2} w="full">
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Salary</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Checking</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-01</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$3,500</Text>
                             </Flex>
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Freelance</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Savings</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-02</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$500</Text>
                             </Flex>
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Investment</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Brokerage</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-01-28</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$250</Text>
                             </Flex>
@@ -67,21 +70,25 @@ export default function Home() {
                         <Stack gap={2} w="full">
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Rent</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Checking</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-01</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$1,500</Text>
                             </Flex>
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Groceries</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Checking</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-02-02</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$420</Text>
                             </Flex>
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Utilities</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Savings</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-01-31</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$180</Text>
                             </Flex>
                             <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
                                 <Text flex="1" textAlign="left">Transport</Text>
+                                <Text fontSize="sm" color="fg.muted" w="20" textAlign="center">Credit</Text>
                                 <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">2025-01-30</Text>
                                 <Text fontWeight="semibold" w="20" textAlign="right">$120</Text>
                             </Flex>
