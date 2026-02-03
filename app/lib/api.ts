@@ -1,6 +1,6 @@
 const API_BASE_URL = process.env.EXPENSIFY_API_BASE_URL || 'http://localhost:8080';
 
-export async function register(username: string, password: string): Promise<void> {
+export async function apiRegister(username: string, password: string): Promise<void> {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
@@ -17,7 +17,7 @@ export async function register(username: string, password: string): Promise<void
     return;
 }
 
-export async function login(username: string, password: string): Promise<string> {
+export async function apiLogin(username: string, password: string): Promise<string> {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {

@@ -1,17 +1,35 @@
 "use client";
 
-import { Box, Button, Heading, Input, Stack, Text } from "@chakra-ui/react";
+import { Alert, Box, Button, Heading, Input, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useState} from "react";
-import { useRouter } from "next/navigation";
-import { login } from "@/app/lib/api";
+import { useState, useEffect} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { apiLogin } from "@/app/lib/api";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
     const [isLoading, setIsLoading] = useState(false);
+    const [registered, setRegistered] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    
     const router = useRouter();
+
+    const {isAuthenticated, login} = useAuth();
+
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/");
+        };
+        
+        if (searchParams.get("registered") === "true") {
+            setRegistered(true);
+        };
+    }, [isAuthenticated, router, searchParams]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -19,8 +37,8 @@ export default function Login() {
         setError(null);
 
         try {
-            const token = await login(username, password);
-            localStorage.setItem("token", token);
+            const token = await apiLogin(username, password);
+            login(token);
             router.push("/");
         } catch (error: any) {
             setError(error.message);
@@ -32,6 +50,11 @@ export default function Login() {
     return (
         <form onSubmit={handleSubmit}>
             <Stack gap={6}>
+                <Alert.Root status="success" size="lg" p={4} mb={4} hidden={!registered}>
+                    <Alert.Indicator />
+                    <Alert.Title>Registration successful! Please log in.</Alert.Title>
+                </Alert.Root>
+
                 <Box textAlign="center">
                     <Heading size="2xl" mb={2}>Login</Heading>
                 </Box>
@@ -39,10 +62,14 @@ export default function Login() {
                 <Stack gap={4}>
                     <Input placeholder="Username" type="text" size="lg" value={username} onChange={(e) => setUsername(e.target.value)} required />
                     <Input placeholder="Password" type="password" size="lg" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                                
+                    <Alert.Root status="error" size="lg" p={4} hidden={!error}>
+                        <Alert.Indicator />
+                        <Alert.Title>{error}</Alert.Title>
+                    </Alert.Root>
+                
                     <Button colorPalette="blue" size="lg" width="full" type="submit" loading={isLoading}>Log In</Button>
                 </Stack>
-
-                {error && <Text color="red.500" textAlign="center">{error}</Text>}
 
                 <Text textAlign="center" fontSize="sm" color="fg.muted">
                     Don't have an account?{" "}
