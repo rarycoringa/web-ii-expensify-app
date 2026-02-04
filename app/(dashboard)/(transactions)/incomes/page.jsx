@@ -37,6 +37,15 @@ export default function Incomes() {
         });
     };
 
+    const handleIncomeDeleted = () => {
+        fetchIncomes();
+        toaster.create({
+            title: "Income deleted",
+            type: "success",
+            duration: 6000,
+        });
+    };
+
     return (
         <Stack gap={8} w="60%">
             <Box borderWidth="1px" rounded="lg" p={6} w="full">
@@ -50,10 +59,12 @@ export default function Incomes() {
                     {incomes.map((income) => (
                         <IncomeCard
                             key={income.id}
+                            id={income.id}
                             description={income.description}
                             account={income.account_id}
                             date={income.date}
                             amount={income.amount}
+                            onIncomeDeleted={handleIncomeDeleted}
                         />
                     ))}
                 </Stack>

@@ -38,6 +38,15 @@ export default function Transfers() {
         });
     };
 
+    const handleTransferDeleted = () => {
+        fetchTransfers();
+        toaster.create({
+            title: "Transfer deleted",
+            type: "success",
+            duration: 6000,
+        });
+    };
+
     return (
         <Stack gap={8} w="60%">
             <Box borderWidth="1px" rounded="lg" p={6} w="full">
@@ -51,11 +60,13 @@ export default function Transfers() {
                     {transfers.map((transfer) => (
                         <TransferCard
                             key={transfer.id}
+                            id={transfer.id}
                             description={transfer.description}
                             fromAccount={transfer.source_account_id}
                             toAccount={transfer.destination_account_id}
                             date={transfer.date}
                             amount={transfer.amount}
+                            onTransferDeleted={handleTransferDeleted}
                         />
                     ))}
                 </Stack>

@@ -38,6 +38,15 @@ export default function Accounts() {
         });
     };
 
+    const handleAccountDeleted = () => {
+        fetchAccounts();
+        toaster.create({
+            title: "Account deleted",
+            type: "success",
+            duration: 6000,
+        });
+    };
+
     return (
         <Stack gap={8} w="60%">
             <Box borderWidth="1px" rounded="lg" p={6} w="full">
@@ -50,13 +59,13 @@ export default function Accounts() {
                 <Stack gap={2} w="full">
                     {
                         accounts.map((account, index) => (
-                            <AccountCard key={index} name={account.name} amount={account.balance} />
+                            <AccountCard key={index} id={account.id} name={account.name} amount={account.balance} onAccountDeleted={handleAccountDeleted} />
                         ))
                     }
                 </Stack>
             </Box>
 
-            <CreateAccountModal onAccountCreated={handleAccountCreated}/>
+            <CreateAccountModal onAccountCreated={handleAccountCreated} />
         </Stack>
     );
 }

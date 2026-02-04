@@ -1,16 +1,19 @@
 "use client";
 
 import { Flex, Text } from "@chakra-ui/react";
+import DeleteTransferModal from "./DeleteTransferModal";
 
 interface TransferCardProps {
+    id: string;
     description: string;
     fromAccount: string;
     toAccount: string;
     date: string;
     amount: number;
+    onTransferDeleted?: () => void;
 }
 
-export default function TransferCard({ description, fromAccount, toAccount, date, amount }: TransferCardProps) {
+export default function TransferCard({ id, description, fromAccount, toAccount, date, amount, onTransferDeleted }: TransferCardProps) {
     return (
         <Flex align="center" borderWidth="1px" rounded="md" px={4} py={2} h="12">
             <Text flex="1" textAlign="left">
@@ -25,6 +28,8 @@ export default function TransferCard({ description, fromAccount, toAccount, date
             <Text fontWeight="semibold" w="20" textAlign="right" color="blue.600">
                 ${amount}
             </Text>
+
+            <DeleteTransferModal transferId={id} onTransferDeleted={onTransferDeleted} />
         </Flex>
     );
 }

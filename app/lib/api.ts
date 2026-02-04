@@ -74,6 +74,25 @@ export async function apiCreateAccount(name: string, balance: number) {
     return await response.json();
 }
 
+export async function apiDeleteAccount(accountId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/accounts/${accountId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete account');
+    }
+
+    return;
+}
+
 export async function apiFetchIncomes() {
     const token = localStorage.getItem('token');
 
@@ -110,6 +129,25 @@ export async function apiCreateIncome(description: string, amount: number, date:
     }
 
     return await response.json();
+}
+
+export async function apiDeleteIncome(incomeId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/incomes/${incomeId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete income');
+    }
+
+    return;
 }
 
 export async function apiFetchExpenses() {
@@ -150,6 +188,25 @@ export async function apiCreateExpense(description: string, amount: number, date
     return await response.json();
 }
 
+export async function apiDeleteExpense(expenseId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/expenses/${expenseId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete expense');
+    }
+
+    return;
+}
+
 export async function apiFetchTransfers() {
     const token = localStorage.getItem('token');
 
@@ -186,4 +243,23 @@ export async function apiCreateTransfer(description: string, amount: number, dat
     }
 
     return await response.json();
+}
+
+export async function apiDeleteTransfer(transferId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/transfers/${transferId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to delete transfer');
+    }
+
+    return;
 }

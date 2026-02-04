@@ -4,7 +4,7 @@ import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { apiFetchAccounts, apiFetchExpenses } from "@/app/lib/api";
+import { apiFetchExpenses } from "@/app/lib/api";
 import ExpenseCard from "../components/ExpenseCard";
 import CreateExpenseModal from "../components/CreateExpenseModal";
 import { toaster } from "@/app/components/ui/toaster";
@@ -14,7 +14,6 @@ export default function Expenses() {
     const router = useRouter();
 
     const [expenses, setExpenses] = useState([]);
-    const [accounts, setAccounts] = useState([]);
     const expensesBalance = expenses.reduce((total, expense) => total + expense.amount, 0);
 
     useEffect(() => {
@@ -23,7 +22,6 @@ export default function Expenses() {
         }
 
         fetchExpenses();
-        fetchAccounts();
     }, [isAuthenticated, router]);
 
     const fetchExpenses = async () => {
@@ -31,20 +29,19 @@ export default function Expenses() {
         setExpenses(fetchedExpenses);
     };
 
-    const fetchAccounts = async () => {
-        const fetchedAccounts = await apiFetchAccounts();
-        setAccounts(fetchedAccounts);
-    };
-
-    const getAccountName = (accountId) => {
-        const match = accounts.find((account) => account.id === accountId);
-        return match?.name || accountId;
-    };
-
     const handleExpenseCreated = () => {
         fetchExpenses();
         toaster.create({
             title: "Expense created",
+            type: "success",
+            duration: 6000,
+        });
+    };
+
+    const handleExpenseDeleted = () => {
+        fetchExpenses();
+        toaster.create({
+            title: "Expense deleted",
             type: "success",
             duration: 6000,
         });
@@ -63,10 +60,12 @@ export default function Expenses() {
                     {expenses.map((expense) => (
                         <ExpenseCard
                             key={expense.id}
+                            id={expense.id}
                             description={expense.description}
-                            account={getAccountName(expense.account_id ?? expense.accountId ?? expense.account)}
+                            account={expense.account_id}
                             date={expense.date}
                             amount={expense.amount}
+                            onExpenseDeleted={handleExpenseDeleted}
                         />
                     ))}
                 </Stack>
