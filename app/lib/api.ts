@@ -74,8 +74,116 @@ export async function apiCreateAccount(name: string, balance: number) {
     return await response.json();
 }
 
-export async function apiCreateIncome() {}
+export async function apiFetchIncomes() {
+    const token = localStorage.getItem('token');
 
-export async function apiCreateExpense() {}
+    const response = await fetch(`${API_BASE_URL}/transactions/incomes`, {
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
 
-export async function apiCreateTransfer() {}
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch incomes');
+    }
+
+    return await response.json();
+}
+
+export async function apiCreateIncome(description: string, amount: number, date: string, accountId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/incomes`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ description, amount, date, account_id: accountId }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create income');
+    }
+
+    return await response.json();
+}
+
+export async function apiFetchExpenses() {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/expenses`, {
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch expenses');
+    }
+
+    return await response.json();
+}
+
+export async function apiCreateExpense(description: string, amount: number, date: string, accountId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/expenses`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ description, amount, date, account_id: accountId }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create expense');
+    }
+
+    return await response.json();
+}
+
+export async function apiFetchTransfers() {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/transfers`, {
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to fetch transfers');
+    }
+
+    return await response.json();
+}
+
+export async function apiCreateTransfer(description: string, amount: number, date: string, fromAccountId: string, toAccountId: string) {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${API_BASE_URL}/transactions/transfers`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ description, amount, date, source_account_id: fromAccountId, destination_account_id: toAccountId }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create transfer');
+    }
+
+    return await response.json();
+}
