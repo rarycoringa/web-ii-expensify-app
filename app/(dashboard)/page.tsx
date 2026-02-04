@@ -10,9 +10,10 @@ import {
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import IncomeCard from "./transactions/components/IncomeCard";
-import ExpenseCard from "./transactions/components/ExpenseCard";
-import TransferCard from "./transactions/components/TransferCard";
+import IncomeCard from "./(transactions)/components/IncomeCard";
+import ExpenseCard from "./(transactions)/components/ExpenseCard";
+import TransferCard from "./(transactions)/components/TransferCard";
+import AccountCard from "./accounts/components/AccountCard";
 
 export default function Home() {
     const { isAuthenticated } = useAuth();
@@ -63,14 +64,26 @@ export default function Home() {
                     </Box>
                 </SimpleGrid>
 
-                <Box borderWidth="1px" rounded="lg" p={6} w="full">
-                    <Heading size="lg" mb={4}>Transfers</Heading>
-                    <Stack gap={2} w="full">
-                        <TransferCard description="Transfer to Savings" fromAccount="Checking" toAccount="Savings" date="2025-02-03" amount={500} />
-                        <TransferCard description="Transfer to Brokerage" fromAccount="Savings" toAccount="Brokerage" date="2025-01-29" amount={1000} />
-                        <TransferCard description="Transfer from Credit" fromAccount="Credit" toAccount="Checking" date="2025-01-25" amount={300} />
-                    </Stack>
-                </Box>
+                <SimpleGrid columns={{ base: 1, md: 2 }} gap={6} w="full">
+                    <Box borderWidth="1px" rounded="lg" p={6} w="full">
+                        <Heading size="lg" mb={4}>Transfers</Heading>
+                        <Stack gap={2} w="full">
+                            <TransferCard description="Transfer to Savings" fromAccount="Checking" toAccount="Savings" date="2025-02-03" amount={500} />
+                            <TransferCard description="Transfer to Brokerage" fromAccount="Savings" toAccount="Brokerage" date="2025-01-29" amount={1000} />
+                            <TransferCard description="Transfer from Credit" fromAccount="Credit" toAccount="Checking" date="2025-01-25" amount={300} />
+                        </Stack>
+                    </Box>
+
+                    <Box borderWidth="1px" rounded="lg" p={6} w="full">
+                        <Heading size="lg" mb={4}>Accounts</Heading>
+                        <Stack gap={2} w="full">
+                            <AccountCard name="Checking" amount={1500} />
+                            <AccountCard name="Savings" amount={3000} />
+                        </Stack>
+                    </Box>
+                </SimpleGrid>
+
+                
             </Stack>
         </Box>
     );

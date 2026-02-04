@@ -23,9 +23,19 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 						<b>Accounts</b>
 					</Button>
 				</Link>
-				<Link href="/transactions">
+				<Link href="/incomes">
 					<Button size="lg" px={4} variant="ghost">
-						<b>Transactions</b>
+						<b>Incomes</b>
+					</Button>
+				</Link>
+                <Link href="/expenses">
+					<Button size="lg" px={4} variant="ghost">
+						<b>Expenses</b>
+					</Button>
+				</Link>
+                <Link href="/transfers">
+					<Button size="lg" px={4} variant="ghost">
+						<b>Transfers</b>
 					</Button>
 				</Link>
 				<Spacer />

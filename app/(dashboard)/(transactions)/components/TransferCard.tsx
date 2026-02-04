@@ -16,7 +16,7 @@ export default function TransferCard({ description, fromAccount, toAccount, date
             <Text flex="1" textAlign="left">
                 {description}
             </Text>
-            <Text fontSize="sm" color="fg.muted" w="60" textAlign="center">
+            <Text fontSize="sm" color="fg.muted" w="40" textAlign="center">
                 {fromAccount} → {toAccount}
             </Text>
             <Text fontSize="sm" color="fg.muted" w="28" textAlign="center">
