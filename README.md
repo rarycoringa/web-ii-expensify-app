@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 Expensify
 
-## Getting Started
+A modern personal finance management frontend built with Next.js, featuring JWT authentication, real-time account management, and transaction tracking. Seamlessly manage your expenses, income, and transfers with an intuitive user interface.
 
-First, run the development server:
+## 🚀 Tech Stack
+
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **React 19** - UI library
+- **Docker & Docker Compose** - Containerization
+- **pnpm** - Package manager
+
+## 📋 Prerequisites
+
+- Docker and Docker Compose
+- Make (optional, for convenience commands)
+- Node.js 18+ (for local development)
+- pnpm (recommended) or npm
+
+## 🛠️ Getting Started
+
+Use the following make commands to run the application:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Start development server
+make dev
+
+# Start application with Docker
+make up
+
+# Stop the application
+make down
+
+# View logs
+make logs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Authentication
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application uses JWT tokens for authentication, managed through the `AuthContext`.
 
-## Learn More
+### Register
+Navigate to `/auth/register` to create a new account.
 
-To learn more about Next.js, take a look at the following resources:
+### Login
+Navigate to `/auth/login` to authenticate with your credentials.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The JWT token is automatically stored and included in API requests to the backend.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📚 Features
 
-## Deploy on Vercel
+### 🏠 Home
+- See a comprehensive summary of your financial overview
+- View total balance across all accounts
+- Display total incomes received
+- Display total expenses spent
+- Show recent transfers
+- Quick access to all accounts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Location:** `/`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🏦 Account Management
+- View all your accounts with current balances
+- Create new accounts
+- Update account details
+- Delete accounts
+
+**Location:** `/accounts`
+
+### 💸 Expense Tracking
+- Record your expenses with descriptions and amounts
+- Track which account expenses are linked to
+- View all expenses in a calendar or list view
+- Delete expense records
+
+**Location:** `/expenses`
+
+### 💰 Income Management
+- Log income sources and amounts
+- Categorize income to specific accounts
+- Track income history
+- Manage income records
+
+**Location:** `/incomes`
+
+### 🔄 Money Transfers
+- Transfer money between your accounts
+- Track transfer history
+- View source and destination details
+- Undo transfers if needed
+
+**Location:** `/transfers`
+
+## 🏗️ Project Structure
+
+```
+app/
+├── auth/                    # Authentication pages (login, register)
+├── dashboard/               # Main application dashboard
+│   ├── accounts/           # Account management
+│   └── transactions/       # Transaction features
+│       ├── expenses/       # Expense tracking
+│       ├── incomes/        # Income management
+│       └── transfers/      # Money transfers
+├── components/             # Reusable UI components
+│   └── ui/                 # Base UI components
+├── contexts/               # React contexts (Auth)
+└── lib/                    # Utilities and API client
+```
+
+## 🔌 API Integration
+
+The frontend communicates with the Expensify backend API. Configure the API endpoint:
+
+```typescript
+// lib/api.ts
+const API_BASE_URL = process.env.EXPENSIFY_API_BASE_URL || 'http://localhost:8080';
+```
+
+### Environment Variables
+
+Create an environment variable:
+
+```bash
+export EXPENSIFY_API_BASE_URL=http://localhost:8080
+```
