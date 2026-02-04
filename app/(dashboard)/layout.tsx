@@ -4,6 +4,7 @@ import { Box, Button, Flex, Heading, Spacer } from "@chakra-ui/react";
 import Link from "next/link";
 import { ReactNode } from "react";
 import { useAuth } from "@/app/contexts/AuthContext";
+import { Toaster } from "@/app/components/ui/toaster";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
 	const { logout } = useAuth();
@@ -54,6 +55,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 			>
 				{children}
 			</Box>
+
+            <Toaster />
 		</Box>
 	);
 }

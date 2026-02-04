@@ -3,18 +3,39 @@
 import { Box, Heading, Stack, Text } from "@chakra-ui/react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AccountCard from "./components/AccountCard";
+import CreateAccountModal from "./components/CreateAccountModal";
+import { apiFetchAccounts } from "@/app/lib/api";
+import { toaster } from "@/app/components/ui/toaster";
 
 export default function Accounts() {
     const { isAuthenticated } = useAuth();
     const router = useRouter();
 
+    const [accounts, setAccounts] = useState<Array<{ id: string, name: string; balance: number }>>([]);
+
     useEffect(() => {
         if (!isAuthenticated) {
             router.push("/auth/login");
         }
+
+        fetchAccounts();
     }, [isAuthenticated, router]);
+
+    const fetchAccounts = async () => {
+        const fetchedAccounts = await apiFetchAccounts();
+        setAccounts(fetchedAccounts);
+    }
+
+    const handleAccountCreated = () => {
+        fetchAccounts();
+        toaster.create({
+            title: "Account created",
+            type: "success",
+            duration: 6000,
+        });
+    };
 
     return (
         <Stack gap={8} w="60%">
@@ -26,10 +47,15 @@ export default function Accounts() {
             <Box borderWidth="1px" rounded="lg" p={6} w="full">
                 <Heading size="lg" mb={4}>Accounts</Heading>
                 <Stack gap={2} w="full">
-                    <AccountCard name="Checking" amount={1500} />
-                    <AccountCard name="Savings" amount={3000} />
+                    {
+                        accounts.map((account, index) => (
+                            <AccountCard key={index} name={account.name} amount={account.balance} />
+                        ))
+                    }
                 </Stack>
             </Box>
+
+            <CreateAccountModal onAccountCreated={handleAccountCreated}/>
         </Stack>
     );
 }

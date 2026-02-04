@@ -8,11 +8,11 @@ import { apiLogin } from "@/app/lib/api";
 import { useAuth } from "@/app/contexts/AuthContext";
 
 export default function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [registered, setRegistered] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [registered, setRegistered] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     
     const router = useRouter();
@@ -25,7 +25,7 @@ export default function Login() {
         if (isAuthenticated) {
             router.push("/");
         };
-        
+
         if (searchParams.get("registered") === "true") {
             setRegistered(true);
         };
