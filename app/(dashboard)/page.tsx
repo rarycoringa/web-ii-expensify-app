@@ -9,21 +9,57 @@ import {
 } from "@chakra-ui/react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import IncomeCard from "./(transactions)/components/IncomeCard";
 import ExpenseCard from "./(transactions)/components/ExpenseCard";
 import TransferCard from "./(transactions)/components/TransferCard";
 import AccountCard from "./accounts/components/AccountCard";
+import { apiFetchAccounts, apiFetchExpenses, apiFetchIncomes, apiFetchTransfers } from "../lib/api";
 
 export default function Home() {
     const { isAuthenticated } = useAuth();
     const router = useRouter();
 
+    const [incomes, setIncomes] = useState<Array<{ id: string; description: string; account: string; date: string; amount: number }>>([]);
+    const [expenses, setExpenses] = useState<Array<{ id: string; description: string; account: string; date: string; amount: number }>>([]);
+    const [transfers, setTransfers] = useState<Array<{ id: string; description: string; fromAccount: string; toAccount: string; date: string; amount: number }>>([]);
+    const [accounts, setAccounts] = useState<Array<{ id: string; name: string; balance: number }>>([]);
+
+    const incomesBalance = incomes.reduce((sum, income) => sum + income.amount, 0);
+    const expensesBalance = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    const totalBalance = incomesBalance - expensesBalance;
+
     useEffect(() => {
         if (!isAuthenticated) {
             router.push("/auth/login");
         }
+
+        fetchIncomes();
+        fetchExpenses();
+        fetchTransfers();
+        fetchAccounts();
+
     }, [isAuthenticated, router]);
+
+    const fetchIncomes = async () => {
+        const fetchedIncomes = await apiFetchIncomes();
+        setIncomes(fetchedIncomes);
+    };
+
+    const fetchExpenses = async () => {
+        const fetchedExpenses = await apiFetchExpenses();
+        setExpenses(fetchedExpenses);
+    };
+
+    const fetchTransfers = async () => {
+        const fetchedTransfers = await apiFetchTransfers();
+        setTransfers(fetchedTransfers);
+    };
+
+    const fetchAccounts = async () => {
+        const fetchedAccounts = await apiFetchAccounts();
+        setAccounts(fetchedAccounts);
+    };
 
     return (
         <Box w="full" maxW="6xl" mx="auto">
@@ -31,15 +67,15 @@ export default function Home() {
                 <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} w="full">
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Text fontSize="md" color="fg.muted">Income</Text>
-                        <Heading size="lg" mt={2} color="green.600">$4,250</Heading>
+                        <Heading size="lg" mt={2} color="green.600">${incomesBalance.toFixed(2)}</Heading>
                     </Box>
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Text fontSize="md" color="fg.muted">Expenses</Text>
-                        <Heading size="lg" mt={2} color="red.600">$2,980</Heading>
+                        <Heading size="lg" mt={2} color="red.600">${expensesBalance.toFixed(2)}</Heading>
                     </Box>
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Text fontSize="md" color="fg.muted">Balance</Text>
-                        <Heading size="lg" mt={2}>$1,270</Heading>
+                        <Heading size="lg" mt={2}>${totalBalance.toFixed(2)}</Heading>
                     </Box>
                 </SimpleGrid>
 
@@ -47,19 +83,32 @@ export default function Home() {
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Heading size="lg" mb={4}>Incomes</Heading>
                         <Stack gap={2} w="full">
-                            <IncomeCard description="Salary" account="Checking" date="2025-02-01" amount={3500} />
-                            <IncomeCard description="Freelance" account="Savings" date="2025-02-02" amount={500} />
-                            <IncomeCard description="Investment" account="Brokerage" date="2025-01-28" amount={250} />
+                            {incomes.map((income) => (
+                                <IncomeCard
+                                    key={income.id}
+                                    id={income.id}
+                                    description={income.description}
+                                    account={income.account}
+                                    date={income.date}
+                                    amount={income.amount}
+                                />
+                            ))}
                         </Stack>
                     </Box>
 
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Heading size="lg" mb={4}>Expenses</Heading>
                         <Stack gap={2} w="full">
-                            <ExpenseCard description="Rent" account="Checking" date="2025-02-01" amount={1500} />
-                            <ExpenseCard description="Groceries" account="Checking" date="2025-02-02" amount={420} />
-                            <ExpenseCard description="Utilities" account="Savings" date="2025-01-31" amount={180} />
-                            <ExpenseCard description="Transport" account="Credit" date="2025-01-30" amount={120} />
+                            {expenses.map((expense) => (
+                                <ExpenseCard
+                                    key={expense.id}
+                                    id={expense.id}
+                                    description={expense.description}
+                                    account={expense.account}
+                                    date={expense.date}
+                                    amount={expense.amount}
+                                />
+                            ))}
                         </Stack>
                     </Box>
                 </SimpleGrid>
@@ -68,17 +117,31 @@ export default function Home() {
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Heading size="lg" mb={4}>Transfers</Heading>
                         <Stack gap={2} w="full">
-                            <TransferCard description="Transfer to Savings" fromAccount="Checking" toAccount="Savings" date="2025-02-03" amount={500} />
-                            <TransferCard description="Transfer to Brokerage" fromAccount="Savings" toAccount="Brokerage" date="2025-01-29" amount={1000} />
-                            <TransferCard description="Transfer from Credit" fromAccount="Credit" toAccount="Checking" date="2025-01-25" amount={300} />
+                            {transfers.map((transfer) => (
+                                <TransferCard
+                                    key={transfer.id}
+                                    id={transfer.id}
+                                    description={transfer.description}
+                                    fromAccount={transfer.fromAccount}
+                                    toAccount={transfer.toAccount}
+                                    date={transfer.date}
+                                    amount={transfer.amount}
+                                />
+                            ))}
                         </Stack>
                     </Box>
 
                     <Box borderWidth="1px" rounded="lg" p={6} w="full">
                         <Heading size="lg" mb={4}>Accounts</Heading>
                         <Stack gap={2} w="full">
-                            <AccountCard name="Checking" amount={1500} />
-                            <AccountCard name="Savings" amount={3000} />
+                            {accounts.map((account) => (
+                                <AccountCard
+                                    key={account.id}
+                                    id={account.id}
+                                    name={account.name}
+                                    amount={account.balance}
+                                />
+                            ))}
                         </Stack>
                     </Box>
                 </SimpleGrid>
