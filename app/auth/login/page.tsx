@@ -2,12 +2,12 @@
 
 import { Alert, Box, Button, Heading, Input, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useState, useEffect} from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiLogin } from "@/app/lib/api";
 import { useAuth } from "@/app/contexts/AuthContext";
 
-export default function Login() {
+function LoginForm() {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
@@ -81,5 +81,13 @@ export default function Login() {
                 </Text>
             </Stack>
         </form>
+    );
+}
+
+export default function Login() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <LoginForm />
+        </Suspense>
     );
 }
