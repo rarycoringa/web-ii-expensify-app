@@ -14,6 +14,7 @@ export default function Accounts() {
     const router = useRouter();
 
     const [accounts, setAccounts] = useState<Array<{ id: string, name: string; balance: number }>>([]);
+    const totalBalance = accounts.reduce((sum, account) => sum + account.balance, 0);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -41,7 +42,7 @@ export default function Accounts() {
         <Stack gap={8} w="60%">
             <Box borderWidth="1px" rounded="lg" p={6} w="full">
                 <Text fontSize="md" color="fg.muted">Accounts Amount</Text>
-                <Heading size="lg" mt={2}>$4,250</Heading>
+                <Heading size="lg" mt={2}>${totalBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Heading>
             </Box>
 
             <Box borderWidth="1px" rounded="lg" p={6} w="full">
